@@ -8,6 +8,7 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "./firestore";
 
@@ -41,6 +42,12 @@ function App() {
     setToDoList(mapped);
   };
 
+  const handleEdit = async (id, newTask) => {
+    const userDoc = doc(db, "users", id);
+    const newFields = { task: newTask };
+    await updateDoc(userDoc, newFields);
+  };
+
   const handleDelete = async (id) => {
     const userDoc = doc(db, "tasks", id);
     await deleteDoc(userDoc);
@@ -58,6 +65,7 @@ function App() {
         toDoList={toDoList}
         handleToggle={handleToggle}
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     </div>
   );

@@ -1,8 +1,9 @@
 import React from "react";
 import "../App.css";
 import Delete from "./Delete";
+import Edit from "./Edit";
 
-const ToDo = ({ todo, handleToggle, handleDelete }) => {
+const ToDo = ({ todo, handleToggle, handleDelete, handleEdit }) => {
   const handleClick = (e) => {
     e.preventDefault();
     handleToggle(e.currentTarget.id);

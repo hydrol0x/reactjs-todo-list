@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import data from "./data.json";
 
 // Firestore DB
-import { collection, doc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "./firestore";
 
 //components
@@ -35,20 +41,13 @@ function App() {
     setToDoList(mapped);
   };
 
-  const handleDelete = (id) => {
-    const removeItem = toDoList.filter((task) => {
-      return task.id !== id;
-    });
-    setToDoList(removeItem);
+  const handleDelete = async (id) => {
+    const userDoc = doc(db, "tasks", id);
+    await deleteDoc(userDoc);
   };
 
-  const addTask = (userInput) => {
-    let copy = [...toDoList];
-    copy = [
-      ...copy,
-      { id: toDoList.length + 1, task: userInput, complete: false },
-    ];
-    setToDoList(copy);
+  const addTask = async (userInput) => {
+    await addDoc(tasksCollectionRef, { task: userInput, complete: false });
   };
 
   return (
